@@ -1,0 +1,12 @@
+use_frameworks!
+
+target 'YLFHeaderPageView_Example' do
+  pod 'YLFHeaderPageView', :path => '../'
+  pod 'MJRefresh'
+
+  target 'YLFHeaderPageView_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

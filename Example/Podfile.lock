@@ -1,0 +1,22 @@
+PODS:
+  - KVOController (1.2.0)
+  - MJRefresh (3.1.12)
+  - YLFHeaderPageView (0.1.0):
+    - KVOController
+
+DEPENDENCIES:
+  - MJRefresh
+  - YLFHeaderPageView (from `../`)
+
+EXTERNAL SOURCES:
+  YLFHeaderPageView:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  KVOController: d72ace34afea42468329623b3379ab3cd1d286b6
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  YLFHeaderPageView: 2ede4352f5dc86f2de8072f842a5e9f77c5cde13
+
+PODFILE CHECKSUM: 08b12cce22a2d2df50d8f64a150bc83367b40138
+
+COCOAPODS: 1.2.1
