@@ -89,6 +89,30 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
     return _criPointY;
 }
 
+- (void)resetCurrentScrollView
+{
+    UICollectionViewCell *cell = [[self.pagingView visibleCells] firstObject];
+    for (UIScrollView *scrollV in [cell.contentView subviews]) {
+        if ([scrollV isKindOfClass:[UIScrollView class]]) {
+            self.currentScrollView = scrollV;
+            break;
+        }
+    }
+}
+
+#pragma mark - UIScrollViewDelgate
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self resetCurrentScrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (!decelerate) {
+        [self resetCurrentScrollView];
+    }
+}
+
 #pragma mark - UICollectionView Delegate and DataSource
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -107,7 +131,6 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
         if ([scrollView isKindOfClass:[UIScrollView class]]) {
             [self handleScrollView:scrollView atIndexPath:indexPath];
             [self addObserverForScrollView:scrollView];
-            self.currentScrollView = scrollView;
         }
     }
 }
