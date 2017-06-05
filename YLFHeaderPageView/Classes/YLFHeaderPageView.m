@@ -22,9 +22,6 @@
 
 @implementation YLFHeaderPageView
 
-static void *PagingViewScrollContext = &PagingViewScrollContext;
-static void *PagingViewInsetContext  = &PagingViewInsetContext;
-
 NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
 
 - (instancetype)initWithFrame:(CGRect)frame
