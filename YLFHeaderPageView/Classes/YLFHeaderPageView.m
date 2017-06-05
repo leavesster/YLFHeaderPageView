@@ -141,6 +141,7 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
 
 - (void)handleScrollView:(UIScrollView *)scrollView atIndexPath:(NSIndexPath *)indexPath
 {
+    self.currentScrollView = scrollView;
     scrollView.contentInset = UIEdgeInsetsMake(self.headerHeight + CGRectGetHeight(self.segmentView.frame), 0, scrollView.contentInset.bottom, 0);
     scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, fmaxf(scrollView.contentOffset.y, self.startOffsetY));
     
