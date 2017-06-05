@@ -128,6 +128,7 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
         if ([scrollView isKindOfClass:[UIScrollView class]]) {
             [self handleScrollView:scrollView atIndexPath:indexPath];
             [self addObserverForScrollView:scrollView];
+            self.currentScrollView = scrollView;
         }
     }
 }
