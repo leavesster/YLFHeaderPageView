@@ -160,29 +160,30 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
 
 - (void)addObserverForScrollView:(UIScrollView *)scrollView
 {
+    __weak __typeof(self)weakSelf = self;
     [self.KVOController observe:scrollView keyPath:NSStringFromSelector(@selector(contentOffset)) options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld block:^(id  _Nullable observer, id  _Nonnull object, NSDictionary<NSString *,id> * _Nonnull change) {
-        if (object != self.currentScrollView) {
+        if (object != weakSelf.currentScrollView) {
             return;
         }
         
         CGFloat newOffsetY          = [change[NSKeyValueChangeNewKey] CGPointValue].y;
-        CGRect  headerFrame         = self.headerView.frame;
-        CGRect  segmentFrame        = self.segmentView.frame;
+        CGRect  headerFrame         = weakSelf.headerView.frame;
+        CGRect  segmentFrame        = weakSelf.segmentView.frame;
         CGFloat segmentHeight       = CGRectGetHeight(segmentFrame);
         
         //顶部下拉
-        if (newOffsetY < self.startOffsetY){
-            switch (self.pulldownStyle) {
+        if (newOffsetY < weakSelf.startOffsetY){
+            switch (weakSelf.pulldownStyle) {
                 case YLFHeaderPageViewPullDownStyleNone:
                 {
                     headerFrame.origin.y = 0;
-                    headerFrame.size.height = self.headerHeight;
+                    headerFrame.size.height = weakSelf.headerHeight;
                 }
                     break;
                 case YLFHeaderPageViewPullDownStyleDown:
                 {
-                    headerFrame.origin.y = -newOffsetY - segmentHeight - self.headerHeight;
-                    headerFrame.size.height = self.headerHeight;
+                    headerFrame.origin.y = -newOffsetY - segmentHeight - weakSelf.headerHeight;
+                    headerFrame.size.height = weakSelf.headerHeight;
                 }
                     break;
                 case YLFHeaderPageViewPullDownStyleStretch:
@@ -194,23 +195,23 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
             }
         }
         //全部展示与部分悬停之间状态,保持整体上移即可
-        else if (newOffsetY < self.criPointY) {
-            headerFrame.origin.y = self.startOffsetY - newOffsetY;
-            headerFrame.size.height = self.headerHeight;
+        else if (newOffsetY < weakSelf.criPointY) {
+            headerFrame.origin.y = weakSelf.startOffsetY - newOffsetY;
+            headerFrame.size.height = weakSelf.headerHeight;
         }
         //悬停逻辑
-        else if (newOffsetY >= self.criPointY && self.hoverOverStyle | (YLFHeaderPageViewHoverOverStyleSegment & YLFHeaderPageViewHoverOverStyleHeader)){
-            headerFrame.origin.y = - self.headerHeight + self.headerMinSpace;
-            headerFrame.size.height = self.headerHeight;
+        else if (newOffsetY >= weakSelf.criPointY && weakSelf.hoverOverStyle | (YLFHeaderPageViewHoverOverStyleSegment & YLFHeaderPageViewHoverOverStyleHeader)){
+            headerFrame.origin.y = - weakSelf.headerHeight + weakSelf.headerMinSpace;
+            headerFrame.size.height = weakSelf.headerHeight;
         }
         //渐渐向上移动消失,保证在顶上即可，不再继续增加
-        else if (newOffsetY >= self.criPointY) {
-            headerFrame.origin.y = fmaxf(self.startOffsetY - newOffsetY, -segmentHeight - self.headerHeight);
-            headerFrame.size.height = self.headerHeight;
+        else if (newOffsetY >= weakSelf.criPointY) {
+            headerFrame.origin.y = fmaxf(weakSelf.startOffsetY - newOffsetY, -segmentHeight - weakSelf.headerHeight);
+            headerFrame.size.height = weakSelf.headerHeight;
         }
         segmentFrame.origin.y = CGRectGetMaxY(headerFrame);
-        self.headerView.frame = headerFrame;
-        self.segmentView.frame = segmentFrame;
+        weakSelf.headerView.frame = headerFrame;
+        weakSelf.segmentView.frame = segmentFrame;
     }];
 }
 
