@@ -7,10 +7,10 @@ Pod::Spec.new do |s|
                                             with pull refresh.
                        			DESC
 
-  s.homepage         		= 'https://github.com/leavesster/YLFHeaderPageView'
+  s.homepage         		= 'http://corp.frdic.com:300/yleaf'
   s.license          		= { :type => 'MIT', :file => 'LICENSE' }
   s.author 	          		= 'leavesster'
-  s.source           		= { :git => 'https://github.com/leavesster/YLFHeaderPageView.git', :tag => s.version.to_s }
+  s.source           		= { :git => 'ssh://git@corp.frdic.com:301/other/YLFHeaderPageView.git', :tag => s.version.to_s }
   s.ios.deployment_target 	= '8.0'
   s.source_files 		= 'YLFHeaderPageView/Classes/**/*'
   s.dependency 'KVOController'
