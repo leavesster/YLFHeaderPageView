@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, YLFHeaderPageViewPullDownStyle){
 
 @optional
 
-- (void)scrollViewillDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath;
+- (void)scrollVieWillDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath;
 - (void)scrollViewDidEndDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
