@@ -131,6 +131,21 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
             self.currentScrollView = scrollView;
         }
     }
+    if ([self.mananger respondsToSelector:@selector(scrollViewillDisplayCell:forItemAtIndexPath:)]) {
+        [self.mananger scrollViewillDisplayCell:cell forItemAtIndexPath:indexPath];
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(nonnull UICollectionViewCell *)cell forItemAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    for (UIScrollView *scrollView in [cell.contentView subviews]) {
+        if ([scrollView isKindOfClass:[UIScrollView class]]) {
+            [self removeObserverForScrollView:scrollView];
+        }
+    }
+    if ([self.mananger respondsToSelector:@selector(scrollViewDidEndDisplayCell:forItemAtIndexPath:)]) {
+        [self.mananger scrollViewDidEndDisplayCell:cell forItemAtIndexPath:indexPath];
+    }
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section;
@@ -217,11 +232,22 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
     }];
 }
 
+- (void)removeObserverForScrollView:(UIScrollView *)scrollView
+{
+    [self.KVOController unobserve:scrollView keyPath:NSStringFromSelector(@selector(contentOffset))];
+}
+
 #pragma mark - HitTest
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     UIView *view = [super hitTest:point withEvent:event];
-    if (view == self.headerView) {
+    if ([view isDescendantOfView:self.headerView]) {
+        if ([view isKindOfClass:[UIButton class]]) {
+            return view;
+        }
+        else if ([view canBecomeFirstResponder]) {
+            return view;
+        }
         return self.currentScrollView;
     }
     return view;
