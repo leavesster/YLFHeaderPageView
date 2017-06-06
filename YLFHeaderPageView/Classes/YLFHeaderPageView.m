@@ -240,7 +240,13 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     UIView *view = [super hitTest:point withEvent:event];
-    if (view == self.headerView) {
+    if ([view isDescendantOfView:self.headerView]) {
+        if ([view isKindOfClass:[UIButton class]]) {
+            return view;
+        }
+        else if ([view canBecomeFirstResponder]) {
+            return view;
+        }
         return self.currentScrollView;
     }
     return view;
