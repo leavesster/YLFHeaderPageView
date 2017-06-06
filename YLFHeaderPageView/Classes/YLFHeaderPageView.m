@@ -131,8 +131,8 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
             self.currentScrollView = scrollView;
         }
     }
-    if ([self.mananger respondsToSelector:@selector(scrollViewillDisplayCell:forItemAtIndexPath:)]) {
-        [self.mananger scrollViewillDisplayCell:cell forItemAtIndexPath:indexPath];
+    if ([self.mananger respondsToSelector:@selector(scrollVieWillDisplayCell:forItemAtIndexPath:)]) {
+        [self.mananger scrollVieWillDisplayCell:cell forItemAtIndexPath:indexPath];
     }
 }
 
