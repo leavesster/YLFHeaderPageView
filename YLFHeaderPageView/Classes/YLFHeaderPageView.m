@@ -131,6 +131,9 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
             self.currentScrollView = scrollView;
         }
     }
+    if ([self.mananger respondsToSelector:@selector(scrollViewillDisplayCell:forItemAtIndexPath:)]) {
+        [self.mananger scrollViewillDisplayCell:cell forItemAtIndexPath:indexPath];
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(nonnull UICollectionViewCell *)cell forItemAtIndexPath:(nonnull NSIndexPath *)indexPath
@@ -139,6 +142,9 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
         if ([scrollView isKindOfClass:[UIScrollView class]]) {
             [self removeObserverForScrollView:scrollView];
         }
+    }
+    if ([self.mananger respondsToSelector:@selector(scrollViewDidEndDisplayCell:forItemAtIndexPath:)]) {
+        [self.mananger scrollViewDidEndDisplayCell:cell forItemAtIndexPath:indexPath];
     }
 }
 
