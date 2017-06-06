@@ -133,6 +133,15 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
     }
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(nonnull UICollectionViewCell *)cell forItemAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    for (UIScrollView *scrollView in [cell.contentView subviews]) {
+        if ([scrollView isKindOfClass:[UIScrollView class]]) {
+            [self removeObserverForScrollView:scrollView];
+        }
+    }
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section;
 {
     return [self.mananger scrollViewCount];
@@ -214,6 +223,11 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
         weakSelf.headerView.frame = headerFrame;
         weakSelf.segmentView.frame = segmentFrame;
     }];
+}
+
+- (void)removeObserverForScrollView:(UIScrollView *)scrollView
+{
+    [self.KVOController unobserve:scrollView keyPath:NSStringFromSelector(@selector(contentOffset))];
 }
 
 #pragma mark - HitTest
