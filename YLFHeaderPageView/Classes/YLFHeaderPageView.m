@@ -47,6 +47,9 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
         _pagingView.backgroundColor = [UIColor clearColor];
         _pagingView.pagingEnabled = YES;
         _pagingView.bounces = NO;
+        if ([_pagingView respondsToSelector:@selector(setPrefetchingEnabled:)]) {
+            _pagingView.prefetchingEnabled = NO;
+        }
         [_pagingView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:HeaderPagingCell];
         _pagingView.scrollsToTop = NO;
         [self addSubview:_pagingView];
