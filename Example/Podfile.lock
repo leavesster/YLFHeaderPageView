@@ -1,7 +1,7 @@
 PODS:
   - KVOController (1.2.0)
   - MJRefresh (3.1.12)
-  - YLFHeaderPageView (0.2.0):
+  - YLFHeaderPageView (0.4.0):
     - KVOController
 
 DEPENDENCIES:
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   KVOController: d72ace34afea42468329623b3379ab3cd1d286b6
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
-  YLFHeaderPageView: a917524ab65c4dc0dca93da0e58952adf03950bf
+  YLFHeaderPageView: a966e7e13c70c7fd3c7907d468671acd349ad243
 
 PODFILE CHECKSUM: 08b12cce22a2d2df50d8f64a150bc83367b40138
 
