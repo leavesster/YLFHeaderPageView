@@ -54,12 +54,26 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
         _pagingView.scrollsToTop = NO;
         [self addSubview:_pagingView];
         _headerHeight = CGRectGetHeight(_headerView.frame);
-        _headerView.frame = (CGRect){CGPointZero, _headerView.frame.size};
+        _headerView.frame = (CGRect){CGPointZero, CGSizeMake(frame.size.width, _headerView.frame.size.height)};
+        _headerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self addSubview:_headerView];
-        _segmentView.frame = (CGRect){CGPointMake(0, CGRectGetMaxY(_headerView.frame)), _segmentView.frame.size};
+        _segmentView.frame = (CGRect){CGPointMake(0, CGRectGetMaxY(_headerView.frame)), CGSizeMake(frame.size.width, _segmentView.frame.size.height)};
+        _segmentView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self addSubview:_segmentView];
     }
     return self;
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    if (!CGRectEqualToRect(self.pagingView.frame, self.bounds)) {
+        self.pagingView.frame = self.bounds;
+        UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.pagingView.collectionViewLayout;
+        flowLayout.itemSize = self.frame.size;
+        [flowLayout invalidateLayout];
+        [self.pagingView scrollToItemAtIndexPath:[[self.pagingView indexPathsForVisibleItems] firstObject] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    }
 }
 
 #pragma mark - Properties
@@ -121,6 +135,7 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
     [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     UIScrollView *scrollView = [self.mananger scrollViewForCell:cell atIndexPath:indexPath];
     [self handleScrollView:scrollView atIndexPath:indexPath];
+    scrollView.frame = cell.contentView.bounds;
     [cell.contentView addSubview:scrollView];
     return cell;
 }

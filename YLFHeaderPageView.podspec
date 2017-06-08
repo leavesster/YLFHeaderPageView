@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             		= 'YLFHeaderPageView'
-  s.version          		= '0.3.0'
+  s.version          		= '0.4.0'
   s.summary          		= 'A simple way to share one tableHeaderView/sectionHeaderView for mutiple scrollView.'
   s.description      		= <<-DESC
                                       YLFHeaderPageView supports vertical scroll for each single scrollView and or so support horizon scroll to change scrollView. It provides mutiple build in vertical scroll style and is compatible
