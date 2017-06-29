@@ -24,7 +24,7 @@ typedef NS_ENUM(NSUInteger, YLFHeaderPageViewPullDownStyle){
 @protocol YLFHeaderPageViewProtocol <NSObject>
 
 @required
-- (UIScrollView *)scrollViewForCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (UIView *)scrollViewForCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (NSInteger)scrollViewCount;
 
 @optional

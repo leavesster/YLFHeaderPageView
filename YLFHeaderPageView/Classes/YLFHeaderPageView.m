@@ -106,9 +106,10 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
 - (void)resetCurrentScrollView
 {
     UICollectionViewCell *cell = [[self.pagingView visibleCells] firstObject];
-    for (UIScrollView *scrollV in [cell.contentView subviews]) {
-        if ([scrollV isKindOfClass:[UIScrollView class]]) {
-            self.currentScrollView = scrollV;
+    for (UIView *subView in [cell.contentView subviews]) {
+        UIScrollView *scrollView = [self findScrollViewInView:subView];
+        if ([scrollView isKindOfClass:[UIScrollView class]]) {
+            self.currentScrollView = scrollView;
             break;
         }
     }
@@ -127,22 +128,38 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
     }
 }
 
+- (UIScrollView *)findScrollViewInView:(UIView *)superView
+{
+    if ([superView isKindOfClass:[UIScrollView class]]) {
+        return (UIScrollView *)superView;
+    } else {
+        UIScrollView __block *scrollV;
+        [superView.subviews enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj isKindOfClass:[UIScrollView class]]) {
+                scrollV = obj;
+                *stop = YES;
+            }
+        }];
+        return scrollV;
+    }
+}
+
 #pragma mark - UICollectionView Delegate and DataSource
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:HeaderPagingCell forIndexPath:indexPath];
     [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    UIScrollView *scrollView = [self.mananger scrollViewForCell:cell atIndexPath:indexPath];
-    [self handleScrollView:scrollView atIndexPath:indexPath];
-    scrollView.frame = cell.contentView.bounds;
-    [cell.contentView addSubview:scrollView];
+    UIView *contentView = [self.mananger scrollViewForCell:cell atIndexPath:indexPath];
+    contentView.frame = cell.contentView.bounds;
+    [cell.contentView addSubview:contentView];
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    for (UIScrollView *scrollView in [cell.contentView subviews]) {
+    for (UIView *subView in [cell.contentView subviews]) {
+        UIScrollView *scrollView = [self findScrollViewInView:subView];
         if ([scrollView isKindOfClass:[UIScrollView class]]) {
             [self handleScrollView:scrollView atIndexPath:indexPath];
             [self addObserverForScrollView:scrollView];
@@ -156,7 +173,8 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(nonnull UICollectionViewCell *)cell forItemAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    for (UIScrollView *scrollView in [cell.contentView subviews]) {
+    for (UIView *subView in [cell.contentView subviews]) {
+        UIScrollView *scrollView = [self findScrollViewInView:subView];
         if ([scrollView isKindOfClass:[UIScrollView class]]) {
             [self removeObserverForScrollView:scrollView];
         }
