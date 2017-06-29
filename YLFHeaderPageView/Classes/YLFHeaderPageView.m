@@ -16,6 +16,7 @@
 @property (nonatomic, assign)   CGFloat         startOffsetY;
 @property (nonatomic, assign)   CGFloat         criPointY;
 
+@property (nonatomic, assign, getter=hasDidAppear) BOOL didAppear;
 @property (nonatomic, weak)     UIScrollView    *currentScrollView;
 
 @end
@@ -205,7 +206,13 @@ NSString * const HeaderPagingCell = @"kPagingCellIdentifier";
         scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, fmaxf(scrollView.contentOffset.y, -segmentY));
     }
     else if (segmentY > self.headerMinSpace + CGRectGetHeight(self.segmentView.frame)) {
-        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -segmentY);
+        [self addObserverForScrollView:scrollView];
+        if (self.hasDidAppear) {
+            scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, -segmentY);
+        } else {
+            self.didAppear = YES;
+            scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, fmaxf(-segmentY , self.startOffsetY + self.startDelta));
+        }
     }
 }
 
