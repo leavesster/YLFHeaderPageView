@@ -37,6 +37,7 @@ typedef NS_ENUM(NSUInteger, YLFHeaderPageViewPullDownStyle){
 @interface YLFHeaderPageView : UIView
 
 @property (nonatomic, assign) CGFloat         headerMinSpace;
+@property (nonatomic, assign) CGFloat         startDelta;
 
 @property (nonatomic, strong) UIView            *headerView;
 @property (nonatomic, strong) UIView            *segmentView;
